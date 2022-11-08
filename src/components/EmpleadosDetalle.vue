@@ -30,8 +30,8 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    import Global from './../Global';
+    import EmpleadosService from './../services/EmpleadosService';
+    const service = new EmpleadosService();
 
     export default {
         name: 'EmpleadosDetalle',
@@ -44,19 +44,13 @@
         },
         methods: {
             loadEmpleados() {
-                var request = "api/Empleados";
-                var url = Global.urlEmpleados + request;
-
-                axios.get(url).then(response => {
-                    this.empleados = response.data;
+                service.getEmpleados().then(result => {
+                    this.empleados = result;
                 });
             },
             buscarEmpleado(){
-                var request = "api/Empleados/" +this.idEmpleado;
-                var url = Global.urlEmpleados + request;
-
-                axios.get(url).then(response => {
-                    this.empleado = response.data;
+                service.findEmpleados(this.idEmpleado).then(result => {
+                    this.empleado = result;
                 });
             }
         },

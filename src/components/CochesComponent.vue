@@ -8,22 +8,27 @@
         <img :src="car.imagen" style="width: 150px; height: 150px"/>
         <hr/>
     </div> -->
-    <div class="card" style="width: 18rem; margin: 0 auto; margin-bottom: 20px" v-for="car in coches" :key="car.idCoches">
-        <img :src="car.imagen" class="card-img-top">
-        <div class="card-body">
-            <h5 class="card-title">{{car.marca}}</h5>
-            <p class="card-text"><span style="color: black">Marca: </span> {{car.marca}}</p>
-            <p class="card-text"><span style="color: black">Modelo: </span> {{car.modelo}}</p>
-            <p class="card-text"><span style="color: black">Conductor: </span> {{car.conductor}}</p>
+    <div class="row row-cols-1 row-cols-md-3 g-4" id="carta">
+        <div class="card" style="width: 18rem; margin: 0 auto; margin-bottom: 20px" v-for="car in coches" :key="car.idCoches">
+            <img :src="car.imagen" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">{{car.marca}}</h5>
+                <p class="card-text"><span style="color: black">Marca: </span> {{car.marca}}</p>
+                <p class="card-text"><span style="color: black">Modelo: </span> {{car.modelo}}</p>
+                <p class="card-text"><span style="color: black">Conductor: </span> {{car.conductor}}</p>
+            </div>
         </div>
     </div>
 </div>
 </template>
 
 <script>
+    import CochesService from './../services/CochesService';
+    const service = new CochesService();
+
     //NECESITAMOS IMPORTAR axios y Global
-    import axios from 'axios';
-    import Global from './../Global';
+    // import axios from 'axios';
+    // import Global from './../Global';
     //AQUI PODEMOS DECLARAR VARIABLES PARA UTILIZARLAS 
     //DENTRO DE CUALQUIER METODO DEL COMPONENT
     //var urlApi = "https://apicochespaco.azurewebsites.net/";
@@ -37,12 +42,10 @@
         },
         methods: {
             loadCoches() {
-                var request = "webresources/coches";
-                var url = Global.urlCoches + request;
-
-                axios.get(url).then(response => {
-                    this.coches = response.data;
+                service.getCoches().then(result => {
+                    this.coches = result
                 });
+                
             }
         },
         mounted() {
@@ -52,5 +55,7 @@
 </script>
 
 <style>
-
+    #carta {
+        margin-top: 50px;
+    }
 </style>
